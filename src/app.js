@@ -16,8 +16,19 @@ const tweets = []
 app.post("/sign-up", (req, res) => {
     const { username, avatar } = req.body
     users.push({ username, avatar })
-    console.log(users)
     res.send("Ok!")
+})
+
+app.post("/tweets", (req, res) => {
+    const { username, tweet } = req.body
+
+    // find => retornar undefined se não achar OU o objeto do usuário se achar
+    const userExists = users.find((user) => user.username === username)
+
+    if (!userExists) return res.send("UNAUTHORIZED")
+
+    tweets.push({ username, tweet })
+    res.send("OK")
 })
 
 // Ligar a aplicação do servidor para ouvir requisições
